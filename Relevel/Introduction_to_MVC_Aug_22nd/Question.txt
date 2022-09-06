@@ -1,0 +1,13 @@
+Assignment 1:
+============
+
+Requirements: 
+
+Design an MVC for a restaurant service to serve customers for lunch and dinner.
+
+Assignment 2:
+=============
+
+Requirements: 
+
+2. Design an MVC for a cab booking service like Uber, Ola
