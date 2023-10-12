@@ -8,26 +8,32 @@ def delete():
     select()
 
 def update():
-    name,age,city="name",1,"city"
-    print("Enter some valus to update")
-    id=int(input("Enter id to update : "))
-    name=input("Enter name: ")
-    age=int(input("Enter Age : "))
-    city=input("Enter city: ")
-    q="update student_table set name='{}',age={},city='{}' where id={}"
-    query=q.format(name,age,city,id)
-    db_exec(query)
-    select()
+    try:
+        name,age,city="name",1,"city"
+        print("Enter some valus to update")
+        id=int(input("Enter id to update : "))
+        name=input("Enter name: ")
+        age=int(input("Enter Age : "))
+        city=input("Enter city: ")
+        q="update student_table set name='{}',age={},city='{}' where id={}"
+        query=q.format(name,age,city,id)
+        db_exec(query)
+        select()
+    except:
+        print("Please enter correct values")
 
 def insert():
-    print("Enter values : \n")
-    name=input("Enter name: ")
-    age=int(input("Enter Age : "))
-    city=input("Enter city: ")
-    query="insert into student_table(name,age,city) values ('{}',{},'{}')"
-    fquery=query.format(name,age,city)
-    db_exec(fquery)
-    select()
+    try:
+        print("Enter values : \n")
+        name=input("Enter name: ")
+        age=int(input("Enter Age : "))
+        city=input("Enter city: ")
+        query="insert into student_table(name,age,city) values ('{}',{},'{}')"
+        fquery=query.format(name,age,city)
+        db_exec(fquery)
+        select()
+    except:
+        print("Please Enter correct Values")
 
 def select():
     query="select * from student_table"
@@ -48,22 +54,25 @@ def db_exec(query):
         connection_object.close()
 
 def choice():
-    while True:
-        print("Enter choice")
-        print("1.select\n2.insert\n3.update\n4.delete\n5.exit")
-        choice_num=int(input("Enter your choice : "))
-        if choice_num == 1:
-            select()
-        elif choice_num ==2:
-            insert()
-        elif choice_num == 3:
-            update()
-        elif choice_num == 4:
-            delete()
-        elif choice_num == 5:
-            break
-        else:
-            print("Enter correct number ")
+    try:
+        while True:
+            print("Enter choice")
+            print("1.select\n2.insert\n3.update\n4.delete\n5.exit")
+            choice_num=int(input("Enter your choice : "))
+            if choice_num == 1:
+                select()
+            elif choice_num ==2:
+                insert()
+            elif choice_num == 3:
+                update()
+            elif choice_num == 4:
+                delete()
+            elif choice_num == 5:
+                break
+            else:
+                print("Enter correct number ")
+    except:
+        print("Please enter correct int values")
 
 
 def main():
