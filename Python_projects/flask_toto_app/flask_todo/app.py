@@ -1,11 +1,10 @@
-from flask import Flask
+from flask import Flask  #importing flask here
 
-app=Flask(__name__)
+app=Flask(__name__)   #create object
 
-@app.route('/')
+@app.route('/')     #decorator to override the route
 def hello():
     return "Hello.....guys"
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == "__main__": #initial point
+    app.run(debug=True)    #triggereing the run
