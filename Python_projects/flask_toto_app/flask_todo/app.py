@@ -6,7 +6,7 @@ import mysql.connector
 #         try:
 #             print("constructor called to intialise the db config....")
 #             self.user="root"
-#             self.password="malu1234"
+#             self.password="xxxx"
 #             self.database="student_db"
 #             self.host="localhost"
 #             self.connection_object=mysql.connector.connect(user=self.user,password=self.password,database=self.database,host=self.host)
@@ -43,7 +43,7 @@ def hello():
 
 @app.route('/student')
 def show_data():
-    connection_object=mysql.connector.connect(user="root",password="malu1234",database="student_db",host="localhost")
+    connection_object=mysql.connector.connect(user="root",password="xxxx",database="student_db",host="localhost")
     if connection_object.is_connected():
         db_Info = connection_object.get_server_info()
         cursor = connection_object.cursor()
