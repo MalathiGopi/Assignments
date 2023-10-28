@@ -1,58 +1,52 @@
-from flask import Flask, render_template  #importing flask here
+from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 
-# class Database:
-#     def __init__(self):
-#         try:
-#             print("constructor called to intialise the db config....")
-#             self.user="root"
-#             self.password="xxxx"
-#             self.database="student_db"
-#             self.host="localhost"
-#             self.connection_object=mysql.connector.connect(user=self.user,password=self.password,database=self.database,host=self.host)
-#             if self.connection_object.is_connected():
-#                 self.db_Info = self.connection_object.get_server_info()
-#                 self.cursor = self.connection_object.cursor()
-#                 query="select*from student_table"
-#                 self.cursor.execute(query)
-#                 self.result=self.cursor.fetchall() 
-#                 return self.result
-#             else:
-#                 print("OOps....Not connected ....!")
-#         except Exception as e:
-#             print("DB error : ",e)
-#         finally:
-#             if self.connection_object.is_connected():
-#                 self.cursor.close()
-#                 self.connection_object.close()
-#                 print("MySQL connection is closed")
-        
+app=Flask(__name__)
+
+# MySQL Configuration
+mysql_config = {
+    'host': 'localhost',
+    'user': 'root',       # Your MySQL username
+    'password': 'xxxxx',   # Your MySQL password
+    'database': 'student_db',       # Your MySQL database name
+}
+
+def db_exec(query):
+    con = mysql.connector.connect(**mysql_config)
+    cur=con.cursor()
+    cur.execute(query)
+    result = cur.fetchall()
+    con.commit()
+    cur.close()
+    return result
 
 
-    # def execute_query(self):
-    #     query="select*from student_table"
-    #     self.cursor.execute(query)
-    #     self.result=self.cursor.fetchall() 
-    #     return self.result
-    
-app=Flask(__name__)   #create object
+@app.route('/')
+def index():
+    #display 
+    res=db_exec("SELECT * FROM student_table")
+    return render_template("index.html",result=res)
 
-@app.route('/')     #decorator to override the route
-def hello():
-    return render_template("index.html")
+@app.route('/addstudent', methods=['POST'])
+def add():
+    if request.method == 'POST':
+        name=request.form['name']
+        age=request.form['age']
+        city=request.form['city']
+        print(name,age,city)
+        #insert
+        try:
+            res=db_exec("Insert into student_table(name,age,city) values({},{},{})".format(name,age,city))
+        except Exception as e:
+            print("Something went wrong")
+        return redirect(url_for("index"))
 
-@app.route('/student')
-def show_data():
-    connection_object=mysql.connector.connect(user="root",password="xxxx",database="student_db",host="localhost")
-    if connection_object.is_connected():
-        db_Info = connection_object.get_server_info()
-        cursor = connection_object.cursor()
-        query="select*from student_table"
-        cursor.execute(query)
-        res=cursor.fetchall() 
-        print(res)
-    return render_template("student.html",result=res)
+@app.route('/deletestudent/<int:id>')
+def delete(id):
+    #delete
+    res=db_exec("DELETE FROM student_table WHERE id={}".format(id))
+    return redirect(url_for("index"))
 
 
-if __name__ == "__main__": #initial point
-    app.run(debug=True)    #triggereing the run
+if __name__ == "__main__":
+    app.run(debug=True)

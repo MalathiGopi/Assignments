@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HTML 5 Boilerplate</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-	<script src="index.js"></script>
-    <h1>Hello.........""</h1>
-  </body>
+<html>
+<head>
+    <title>Student List</title>
+</head>
+<body>
+    <h1>Student List</h1>
+    <ul>
+        {% for r in result %}
+            <li>{{ r[1] }} <a href="/deletestudent/{{ r[0] }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+    <form action="/addstudent" method="post">
+        <input type="text" name="name" placeholder="Add a Student name" required><br>
+        <input type="number" name="age" placeholder="Add a Student age" required><br>
+        <input type="text" name="city" placeholder="Add a Student city" required><br>
+        <input type="submit" value="Add Student">
+    </form>
+</body>
 </html>
